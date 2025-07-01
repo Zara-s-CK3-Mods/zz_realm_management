@@ -1,0 +1,136 @@
+﻿namespace = zz_create_new_duchy
+zz_create_new_duchy.001 = {
+	type = character_event
+	title = zz_create_new_duchy.001.t
+	desc = zz_create_new_duchy.001.desc
+	theme = realm 
+
+	left_portrait = root
+	
+	right_portrait = scope:recipient
+
+	widget = {
+		gui = "event_window_widget_name_child"
+		container = "dynamic_birth_name"
+		controller = { #This is going to get long, sorry readers!
+			type = text
+			data = {
+				key = new_title_name
+				default = {
+					localization_key = zz_county_name
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = zz_create_new_duchy.1a
+
+		custom_tooltip = zz_create_new_duchy.1.a.tt
+
+		if = {
+			limit = { has_variable = new_title_name }
+			scope:new_title = {
+				set_title_name = zz_rename_duchy_default_key
+			}
+		}
+		else = {
+			scope:new_title = {
+				set_title_name = zz_rename_duchy_entered_text
+			}
+		}
+
+
+
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_energy = 1
+				ai_boldness = 1
+			}
+		}
+	}
+	option = {
+		name = zz_create_new_duchy.1.b
+
+
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_energy = -1
+				ai_boldness = -1
+			}
+		}
+	}
+
+
+	after = {
+
+		if = {
+			limit = { has_variable = new_title_name }
+			remove_variable = new_title_name
+		}
+	}
+}
+
+namespace = zz_transfer_county_to_duchy
+zz_transfer_county_to_duchy.001 = {
+	type = character_event
+	title = zz_transfer_county_to_duchy.001.t
+	desc = zz_transfer_county_to_duchy.001.desc
+	theme = realm 
+
+	left_portrait = root
+	right_portrait = scope:recipient
+
+	immediate = {
+		clear_variable_list = possible_duchy
+	    remove_variable = selected_duchy
+        scope:recipient = {
+            every_held_title = { 
+                limit = {
+                    tier = tier_duchy
+                }
+                root = {
+                    add_to_variable_list = {
+                        name = possible_duchy
+                        target = prev
+                    }
+                    if = {
+                        limit = {
+                            NOT = { has_variable = selected_duchy }
+                        }
+                        set_variable = { name = selected_duchy value = prev }
+                    }
+                }
+            }
+        }
+	}
+
+	widget = {
+		is_shown = {
+			is_ai = no
+		}
+		gui = "event_window_duchy_selection"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = zz_transfer_county_to_duchy.001.opt.a
+		hidden_effect = {
+            var:selected_duchy ?= {
+				save_scope_as = selected_duchy
+            }
+            scope:target = {
+                set_de_jure_liege_title ?= scope:selected_duchy
+            }
+        }
+
+	}
+    option = {
+		name = zz_transfer_county_to_duchy.001.opt.b
+    }
+}

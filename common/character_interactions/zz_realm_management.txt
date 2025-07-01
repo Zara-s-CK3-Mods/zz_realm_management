@@ -1,0 +1,224 @@
+﻿zz_create_new_duchy = {
+    desc = zz_create_new_duchy_desc
+	category = interaction_category_vassal
+	common_interaction = no
+	icon = powerful_family_shield
+    
+	cost = {
+        influence = {
+            value = 0
+            if = {
+                limit = {
+                    scope:actor = {
+                        government_allows = administrative
+                    }
+                }
+                add = {
+                    value = scope:recipient.monumental_influence_value
+                    multiply = 5
+                }
+            }
+        } 
+        prestige = { 
+            value = 0 
+            if = { 
+                limit = {
+                    NOT = { 
+                        scope:actor = {
+                            government_allows = administrative
+                        }
+                    }
+                }
+                add = { 
+                    value = scope:actor.monumental_prestige_value
+                    multiply = 2
+                }
+            }
+        }
+		
+	}
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+            OR = {
+                AND = {
+                    is_independent_ruler = yes 
+                    highest_held_title_tier >= tier_county
+                }
+                highest_held_title_tier >= tier_kingdom
+            }
+		}
+		
+		scope:recipient = {
+            OR = {
+                liege = scope:actor
+                scope:recipient = scope:actor
+            }
+		}
+	}
+    target_type = title
+	target_filter = recipient_domain_titles
+
+	auto_accept = yes
+
+    can_be_picked_title = {
+		scope:target = {
+			tier = tier_county
+		}
+        any_duchy = { 
+            title_capital_county ?= scope:target
+        }
+	}
+	on_accept = {
+        scope:actor = { 
+            if = { # Admin has to pay an influence cost unless they have a revocation reason on the recipient
+				limit = {
+					government_allows = administrative
+				}
+                show_as_tooltip = { # Actual cost is deducted in the the interaction cost
+                    change_influence = {
+                        subtract = {
+                            value = 0
+                            add = {
+                                value = scope:recipient.monumental_influence_value
+                                multiply = 5
+                            }
+                            #desc = GOVERNOR_RESIGNATION_KINGDOM_COST
+                        }
+                    }
+                }
+            }
+        }
+        hidden_effect = {
+            scope:target = {
+                de_jure_liege = {
+                    save_scope_as = old_liege
+                }
+            }
+            scope:recipient = {
+                create_dynamic_title = {
+                    tier = duchy
+                    name = zz_county_name
+                }
+                create_title_and_vassal_change = {
+                    type = created
+                    save_scope_as = change
+                    add_claim_on_loss = no
+                }
+                scope:new_title = {
+                    change_title_holder = {
+                        holder = scope:recipient
+                        change = scope:change
+                        government_base = scope:actor
+                    }
+                    set_de_jure_liege_title = scope:old_liege.de_jure_liege
+                }
+                resolve_title_and_vassal_change = scope:change
+                scope:target = {
+                    set_de_jure_liege_title = scope:new_title
+                }
+            }
+        }
+        
+        #scope:actor = {
+        #    trigger_event = { 
+        #        id = zz_create_new_duchy.001
+        #    }
+        #}
+    }
+}
+
+zz_transfer_county_to_duchy = {
+    desc = zz_transfer_county_to_duchy_desc
+	category = interaction_category_vassal
+	common_interaction = no
+	icon = powerful_family_shield
+		cost = {
+        influence = {
+            value = 0
+            if = {
+                limit = {
+                    scope:actor = {
+                        government_allows = administrative
+                    }
+                }
+                add = {
+                    value = scope:recipient.monumental_influence_value
+                    multiply = 2
+                }
+            }
+        } 
+        prestige = { 
+            value = 0 
+            if = { 
+                limit = {
+                    NOT = { 
+                        scope:actor = {
+                            government_allows = administrative
+                        }
+                    }
+                }
+                add = { 
+                    value = scope:actor.monumental_prestige_value
+                    multiply = 1
+                }
+            }
+        }
+		
+	}
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+            OR = {
+                AND = {
+                    is_independent_ruler = yes 
+                    highest_held_title_tier >= tier_duchy
+                }
+                highest_held_title_tier >= tier_kingdom
+            }
+		}
+		
+		scope:recipient = {
+            OR = {
+                liege = scope:actor
+                scope:recipient = scope:actor
+            }
+		}
+	}
+    target_type = title
+	target_filter = recipient_domain_titles
+
+	auto_accept = yes
+
+    can_be_picked_title = {
+		scope:target = {
+			tier = tier_county
+		}
+	}
+	on_accept = {
+        scope:actor = { 
+            if = { # Admin has to pay an influence cost unless they have a revocation reason on the recipient
+				limit = {
+					government_allows = administrative
+				}
+                show_as_tooltip = { # Actual cost is deducted in the the interaction cost
+                    change_influence = {#
+                        subtract = {
+                            value = 0
+                            add = {
+                                value = scope:recipient.monumental_influence_value
+                                multiply = 2
+                            }
+                            #desc = ""
+                        }
+                    }
+                }
+            }
+        }
+        scope:actor = {
+            trigger_event = { 
+                id = zz_transfer_county_to_duchy.001
+            }
+        }
+    }
+}

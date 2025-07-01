@@ -1,0 +1,15 @@
+﻿l_english: 
+ zz_county_name:0 "[target.GetBaseNameNoTierNoTooltip]"
+ zz_rename_duchy_default_key:0 "[ROOT.Var( 'new_title_name' ).GetFlagName]"
+ zz_rename_duchy_default_key_adj:0 "[ROOT.Var( 'new_title_name' ).GetFlagName]"
+ zz_rename_duchy_entered_text:0 "[ROOT.Char.GetLocalizedText( 'new_title_name' )]"
+ zz_rename_duchy_entered_text_adj:0 "[ROOT.Char.GetLocalizedText( 'new_title_name' )]"
+ zz_create_new_duchy:0 "Proclaim a new [duchy|E]"
+ zz_create_new_duchy_desc:0 "There are times when the necessities of management require the creation of new sub divisions in your realm. \nNow is such a moment. With the stroke of a pen you can proclaim that there is a new [duchy|E] in your realm, formed from an individual [county|E]."
+ zz_transfer_county_to_duchy:0 "Transfer [county|E] to [duchy|E]"
+ zz_transfer_county_to_duchy_desc:0 "To better manage resources in your realm you can transfer a [county|E] from its [de_jure|E] [duchy|E] to another [duchy|E]."
+
+ zz_transfer_county_to_duchy.001.t:0 "Transfer [county|E] to [duchy|E]"
+ zz_transfer_county_to_duchy.001.desc:0 "To better manage your realm sometimes it is necessary to rearrange the organisational units of your domain. \nYou have elected to move [target.GetBaseNameNoTierNoTooltip] into another [duchy|E] that is held by [target.GetHolder.GetName]."
+ zz_transfer_county_to_duchy.001.opt.a:0 "Yes let it be done."
+ zz_transfer_county_to_duchy.001.opt.b:0 "I have thought better of this."
