@@ -35,11 +35,13 @@ zz_create_new_duchy.001 = {
 			limit = { has_variable = new_title_name }
 			scope:new_title = {
 				set_title_name = zz_rename_duchy_default_key
+				set_delete_on_destroy = yes
 			}
 		}
 		else = {
 			scope:new_title = {
 				set_title_name = zz_rename_duchy_entered_text
+				set_delete_on_destroy = yes
 			}
 		}
 

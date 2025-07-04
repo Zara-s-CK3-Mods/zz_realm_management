@@ -112,6 +112,7 @@
                         government_base = scope:actor
                     }
                     set_de_jure_liege_title = scope:old_liege.de_jure_liege
+                    set_delete_on_destroy = yes
                 }
                 resolve_title_and_vassal_change = scope:change
                 scope:target = {
